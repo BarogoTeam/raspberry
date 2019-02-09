@@ -1,10 +1,14 @@
 package com.zupzup.raspberry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CronTable {
+
+    private static Logger logger = LoggerFactory.getLogger(CronTable.class);
 
     // 매일 5시 30분 0초에 실행한다.
     @Scheduled(cron = "0 30 5 * * *")
@@ -19,6 +23,7 @@ public class CronTable {
 
         //TODO MoiveCronServiceImpl 통해서 데이터 정재해서 저장하기 by thesun.kim
         // 실행될 로직
+        logger.info("daily cron");
     }
 
     // 애플리케이션 시작 후 1초 후에 첫 실행, 그 후 매 1초마다 주기적으로 실행한다.
@@ -28,5 +33,6 @@ public class CronTable {
 
         //TODO SeatCronServiceImpl 통해서 데이터 정재해서 저장하기  by thesun.kim
         // 실행될 로직
+        logger.info("every sec cron");
     }
 }

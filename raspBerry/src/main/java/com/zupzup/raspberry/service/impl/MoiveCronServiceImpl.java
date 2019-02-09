@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class MoiveCronServiceImpl implements MoiveCronService{
-    @Autowired
+
     MovieDAO movieDao;
 
     @Override
