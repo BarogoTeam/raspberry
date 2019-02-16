@@ -17,7 +17,7 @@ public class RaspBerryApplication {
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(RaspBerryApplication.class, args);
 	}
-	
+
     @Bean
     public TaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();

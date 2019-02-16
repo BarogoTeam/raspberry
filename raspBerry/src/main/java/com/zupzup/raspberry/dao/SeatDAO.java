@@ -23,6 +23,7 @@ import java.util.List;
 
 @Component
 public class SeatDAO {
+
     @Autowired
     private MongoTemplate mongoTemplate;
 

@@ -1,26 +1,26 @@
 package com.zupzup.raspberry;
 
+import com.zupzup.raspberry.domain.SeatDomain;
 import com.zupzup.raspberry.service.SeatCronService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpHeaders;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.client.RestTemplate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 @Component
 public class CronTable {
+
+    final static String LOTTE_TICKETING_DATA_URL = "http://www.lottecinema.co.kr/LCWS/Ticketing/TicketingData.aspx";
 
     @Autowired
     SeatCronService seatCronService;
@@ -46,62 +46,46 @@ public class CronTable {
     }
 
     // 애플리케이션 시작 후 1초 후에 첫 실행, 그 후 매 1초마다 주기적으로 실행한다.
-    @Scheduled(initialDelay = 1000, fixedDelay = 10000)
+    @Scheduled(initialDelay = 10000, fixedDelay = 10000)
     public void otherJob() {
         //TODO API호출해서 좌석 데이터 받아오기 by thesun.kim
 
         //TODO SeatCronServiceImpl 통해서 데이터 정재해서 저장하기  by thesun.kim
         // 실행될 로직
-        getMovies();
         logger.info(seatCronService.findAll().toString());
-        logger.info("every sec cron");
+        SeatDomain seatDomain = new SeatDomain();
+        seatDomain.setCinemaId(1013);
+        seatDomain.setScreenId(101305);
+        seatDomain.setPlayDate("2019-02-16");
+        seatDomain.setPlaySequence(4);
+        getDataFromAPI(LOTTE_TICKETING_DATA_URL,"GetSeats",seatDomain);
     }
 
-    private String getMovies() {
-//        BufferedReader in = null;
-//
-//        try {
-//            URL obj = new URL("http://www.lottecinema.co.kr/LCWS/Movie/MovieData.aspx"); // 호출할 url
-//            HttpURLConnection con = (HttpURLConnection)obj.openConnection();
-//
-//            con.setRequestMethod("GET");
-//
-//            in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-//
-//            String line;
-//            while((line = in.readLine()) != null) { // response를 차례대로 출력
-//                System.out.println(line);
-//            }
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if(in != null) try { in.close(); } catch(Exception e) { e.printStackTrace(); }
-//        }
-
+    private String getDataFromAPI(String url, String methodNamem, SeatDomain seatDomain) {
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://openapi.naver.com/v1/language/translate";
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set("Content-Type", "application/x-www-form-urlencoded");
-        requestHeaders.set("X-Naver-Client-Id", "WYtueaQWm4bbvmwPEn6R");
-        requestHeaders.set("X-Naver-Client-Secret", "yXj4Gj6oPL");
+
+        JSONObject paramList = new JSONObject();
+        paramList.put("MethodName",methodNamem);
+        paramList.put("channelType","HO");
+        paramList.put("osType","Chrome");
+        paramList.put("osVersion","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.62 Safari/537.36");
+        paramList.put("cinemaId",seatDomain.getCinemaId());
+        paramList.put("screenId",seatDomain.getScreenId());
+        paramList.put("playDate",seatDomain.getPlayDate());
+        paramList.put("playSequence",seatDomain.getPlaySequence());
 
         MultiValueMap<String, String> postParameters = new LinkedMultiValueMap<String, String>();
-        postParameters.add("source", "ko");
-        postParameters.add("target", "en");
-        postParameters.add("text", board.getLine1() + ". " + board.getLine2());
+        postParameters.add("paramList", paramList.toJSONString());
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(postParameters, requestHeaders);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST , requestEntity, String.class);
 
         String result = responseEntity.toString();
-        int in_text = result.indexOf("translatedText")+17;
-        int out_text = result.substring(in_text).indexOf("}") + in_text -1;
-        String result_text = result.substring(in_text,out_text);
 
-        System.out.println(board.getLine1() + " " + board.getLine2() + " ---translated_text-->" + result_text);
-
-        return "";
+        return result;
     }
 }
