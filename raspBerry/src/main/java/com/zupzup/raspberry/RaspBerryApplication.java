@@ -12,8 +12,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})   //DB 정보없을때 에러넘기는 부분, 나중에 삭제필요
 public class RaspBerryApplication {
-
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(RaspBerryApplication.class, args);
 	}
