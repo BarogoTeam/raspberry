@@ -1,5 +1,7 @@
 package com.zupzup.raspberry;
 
+import com.zupzup.raspberry.domain.AlarmDomain;
+import com.zupzup.raspberry.domain.Domain;
 import com.zupzup.raspberry.domain.SeatDomain;
 import com.zupzup.raspberry.service.SeatCronService;
 import org.slf4j.Logger;
@@ -16,6 +18,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.List;
 
 @Component
 public class CronTable {
@@ -52,16 +56,25 @@ public class CronTable {
 
         //TODO SeatCronServiceImpl 통해서 데이터 정재해서 저장하기  by thesun.kim
         // 실행될 로직
+
+        //TODO 알람데이터에 데이터 컬럼 보완필요 by thesun.kim
         logger.info(seatCronService.findAll().toString());
-        SeatDomain seatDomain = new SeatDomain();
-        seatDomain.setCinemaId(1013);
-        seatDomain.setScreenId(101305);
-        seatDomain.setPlayDate("2019-02-16");
-        seatDomain.setPlaySequence(4);
-        getDataFromAPI(LOTTE_TICKETING_DATA_URL,"GetSeats",seatDomain);
+        List<AlarmDomain> alarmList = seatCronService.findAll();
+
+        for(int i=0; i < alarmList.size(); i++) {
+            AlarmDomain alarmDomain = new AlarmDomain();
+            alarmDomain.setCinemaId(1013);
+            alarmDomain.setScreenId(101305);      //TODO 알람데이터 받아온 값으로 넣어야함
+            alarmDomain.setPlayDate("2019-02-16");
+            alarmDomain.setPlaySequence(4);
+
+            logger.info(getDataFromAPI(LOTTE_TICKETING_DATA_URL,"GetSeats",alarmDomain));
+
+            //TODO 이전데이터를 저장하고있어야 비교해서 차이가있는지 알수가있음 by thesun.kim
+        }
     }
 
-    private String getDataFromAPI(String url, String methodNamem, SeatDomain seatDomain) {
+    private String getDataFromAPI(String url, String methodNamem, AlarmDomain alarmDomain) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -73,10 +86,10 @@ public class CronTable {
         paramList.put("channelType","HO");
         paramList.put("osType","Chrome");
         paramList.put("osVersion","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.62 Safari/537.36");
-        paramList.put("cinemaId",seatDomain.getCinemaId());
-        paramList.put("screenId",seatDomain.getScreenId());
-        paramList.put("playDate",seatDomain.getPlayDate());
-        paramList.put("playSequence",seatDomain.getPlaySequence());
+        paramList.put("cinemaId",alarmDomain.getCinemaId());
+        paramList.put("screenId",alarmDomain.getScreenId());
+        paramList.put("playDate",alarmDomain.getPlayDate());
+        paramList.put("playSequence",alarmDomain.getPlaySequence());
 
         MultiValueMap<String, String> postParameters = new LinkedMultiValueMap<String, String>();
         postParameters.add("paramList", paramList.toJSONString());
