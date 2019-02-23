@@ -1,9 +1,8 @@
 package com.zupzup.raspberry;
 
 import com.zupzup.raspberry.domain.AlarmDomain;
-import com.zupzup.raspberry.domain.Domain;
-import com.zupzup.raspberry.domain.SeatDomain;
 import com.zupzup.raspberry.service.SeatCronService;
+import com.zupzup.raspberry.service.TelegramService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.List;
@@ -47,6 +45,11 @@ public class CronTable {
 
 
         logger.info("daily cron");
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void startTelegramBot() {
+        TelegramService.telegramBotManager();
     }
 
     // 애플리케이션 시작 후 1초 후에 첫 실행, 그 후 매 1초마다 주기적으로 실행한다.
