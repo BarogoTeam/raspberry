@@ -22,7 +22,7 @@ def help(bot, update):
     bot.sendMessage(update.message.chat_id, text='/start : receive signin URL\n/signup : register your password\n\t\tex)/signup pwd123')
 
 def signup(bot, update):
-    chat_id = update.message.chat_id
+    chat_id = str(update.message.chat_id)
     user = update.message.from_user
     password = update.message.text[8:]
     
