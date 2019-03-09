@@ -7,42 +7,25 @@ import java.util.ArrayList;
 @Data
 public class AlarmDomain extends Domain {
     private String movieId;
-    private ArrayList<String> cinemaNames;
-    private ArrayList<String> cinemaTypes;
-    private String date;
-    private ArrayList<Integer> weekDays;
-    private String startTime;
-    private String endTime;
-    private ArrayList<String> seatNoList;
-    private Integer reservationNumber;
-    private Boolean isRun;
-
-    /*  getSeat API 호출변수  */
-    private int screenId;
-    private String screenDivisionCode;
-    private int cinemaId;
+    private String movieNameKr;
     private String playDate;
-    private int playSequence;
+    private Integer reservationNumber;
+    private ArrayList<SequenceDomain> sequences;
 
-
-    public int getScreenId() {
-        return screenId;
+    public String getMovieId() {
+        return movieId;
     }
 
-    public void setScreenId(int screenId) {
-        this.screenId = screenId;
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
-    public String getScreenDivisionCode() {
-        return screenDivisionCode;
+    public String getMovieNameKr() {
+        return movieNameKr;
     }
 
-    public void setScreenDivisionCode(String screenDivisionCode) {
-        this.screenDivisionCode = screenDivisionCode;
-    }
-
-    public void setCinemaId(int cinemaId) {
-        this.cinemaId = cinemaId;
+    public void setMovieNameKr(String movieNameKr) {
+        this.movieNameKr = movieNameKr;
     }
 
     public String getPlayDate() {
@@ -53,15 +36,19 @@ public class AlarmDomain extends Domain {
         this.playDate = playDate;
     }
 
-    public int getPlaySequence() {
-        return playSequence;
+    public Integer getReservationNumber() {
+        return reservationNumber;
     }
 
-    public void setPlaySequence(int playSequence) {
-        this.playSequence = playSequence;
+    public void setReservationNumber(Integer reservationNumber) {
+        this.reservationNumber = reservationNumber;
     }
 
-    public Object getCinemaId() {
-        return cinemaId;
+    public ArrayList<SequenceDomain> getSequences() {
+        return sequences;
+    }
+
+    public void setSequences(ArrayList<SequenceDomain> sequences) {
+        this.sequences = sequences;
     }
 }

@@ -30,7 +30,6 @@ public class SeatDAO {
     private static Logger logger = LoggerFactory.getLogger(SeatDAO.class);
 
     public List<AlarmDomain> selectAlarm() {
-        logger.info(mongoTemplate.toString());
         return mongoTemplate.findAll(AlarmDomain.class, "alarms");
     }
 }
