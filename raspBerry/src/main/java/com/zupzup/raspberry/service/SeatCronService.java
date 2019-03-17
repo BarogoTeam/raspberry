@@ -11,5 +11,6 @@ import java.util.List;
 
 public interface SeatCronService {
     public List<AlarmDomain> findAll();
+    public List<AlarmDomain> findRunAlarms();
 //    public void insertSeat(SeatDomain seatDomain);
 }

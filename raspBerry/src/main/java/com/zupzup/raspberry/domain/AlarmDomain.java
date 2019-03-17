@@ -1,17 +1,31 @@
 package com.zupzup.raspberry.domain;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
 @Data
+@Document(collection = "alarms")
 public class AlarmDomain extends Domain {
+    @Id
+    private String _id;
     private String movieId;
     private String movieNameKr;
     private String playDate;
     private Integer reservationNumber;
     private ArrayList<SequenceDomain> sequences;
     private String email;
+    private boolean isRun;
+
+    public boolean isRun() {
+        return isRun;
+    }
+
+    public void setRun(boolean run) {
+        isRun = run;
+    }
 
     public String getEmail() {
         return email;

@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,6 +30,11 @@ public class SeatDAO {
     private static Logger logger = LoggerFactory.getLogger(SeatDAO.class);
 
     public List<AlarmDomain> selectAlarm() {
-        return mongoTemplate.findAll(AlarmDomain.class, "alarms");
+        return mongoTemplate.findAll(AlarmDomain.class,"alarms");
+    }
+
+    public List<AlarmDomain> selectRunAlarm() {
+        Criteria criteria = new Criteria().where("isRun").is(true);
+        return mongoTemplate.find(new Query(criteria),AlarmDomain.class,"alarms");
     }
 }

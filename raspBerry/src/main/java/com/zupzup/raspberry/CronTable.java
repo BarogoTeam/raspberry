@@ -68,10 +68,10 @@ public class CronTable {
         String today = format.format(new Date());
         Date todayDate = format.parse(today);
 
-        List<AlarmDomain> alarmList = seatCronService.findAll();
+        List<AlarmDomain> alarmList = seatCronService.findRunAlarms();
         for(AlarmDomain alarm : alarmList) {
             Date playDate = format.parse(alarm.getPlayDate());
-            if (isNotOldAlarm(todayDate, playDate)) {  //TODO DB쿼리로 넘기기 (추가로 isRun상태인조건도 추가) by thesun.kim
+            if (isNotOldAlarm(todayDate, playDate)) {
                 for (SequenceDomain sequence : alarm.getSequences()) {
                     JSONObject paramList = getJsonObject(alarm, sequence);
 

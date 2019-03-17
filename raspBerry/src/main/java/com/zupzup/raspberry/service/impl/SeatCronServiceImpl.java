@@ -28,8 +28,10 @@ public class SeatCronServiceImpl implements SeatCronService{
         return result;
     }
 
-//    @Override
-//    public void insertSeat(SeatDomain seatDomain) {
-//        seatDao.insertSeat(seatDomain);
-//    }
+    @Override
+    public List<AlarmDomain> findRunAlarms() {
+        List<AlarmDomain> result = seatDao.selectRunAlarm();
+        return result;
+    }
+
 }
