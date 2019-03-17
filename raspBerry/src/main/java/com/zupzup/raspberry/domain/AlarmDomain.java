@@ -11,6 +11,15 @@ public class AlarmDomain extends Domain {
     private String playDate;
     private Integer reservationNumber;
     private ArrayList<SequenceDomain> sequences;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getMovieId() {
         return movieId;
