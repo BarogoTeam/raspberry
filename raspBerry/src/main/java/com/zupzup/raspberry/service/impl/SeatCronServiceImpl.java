@@ -1,16 +1,12 @@
 package com.zupzup.raspberry.service.impl;
 
-import com.zupzup.raspberry.CronTable;
+import com.zupzup.raspberry.dao.SeatDAO;
 import com.zupzup.raspberry.domain.AlarmDomain;
+import com.zupzup.raspberry.service.SeatCronService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
-import com.zupzup.raspberry.dao.SeatDAO;
-import com.zupzup.raspberry.domain.SeatDomain;
-import com.zupzup.raspberry.service.SeatCronService;
 
 import java.util.List;
 
@@ -32,6 +28,11 @@ public class SeatCronServiceImpl implements SeatCronService{
     public List<AlarmDomain> findRunAlarms() {
         List<AlarmDomain> result = seatDao.selectRunAlarm();
         return result;
+    }
+
+    @Override
+    public void setRun(String id, boolean flag){
+        seatDao.setRun(id, flag);
     }
 
 }

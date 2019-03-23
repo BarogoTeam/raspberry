@@ -1,5 +1,8 @@
 package com.zupzup.raspberry.service.impl;
 
+import com.zupzup.raspberry.CronTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +15,16 @@ import java.util.List;
 @Service
 public class MoiveCronServiceImpl implements MoiveCronService{
 
+    private static Logger logger = LoggerFactory.getLogger(CronTable.class);
+
+    @Autowired
     MovieDAO movieDao;
 
     @Override
-    public MovieDomain findOneByMovieCode(int movieCode) {
-        return movieDao.findByMovieCode(movieCode);
-    }
-
-    @Override
-    public List<MovieDomain> findAll() {
-        return movieDao.findAll();
+    public void updateMovie(MovieDomain movie){
+        if(movieDao.isNotExist(movie)){
+            movieDao.addMovie(movie);
+            logger.info("updateMovie : " + movie.getName() + " 영화 추가 완료");
+        }
     }
 }
