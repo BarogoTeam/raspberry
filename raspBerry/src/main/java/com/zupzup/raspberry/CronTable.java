@@ -59,8 +59,9 @@ public class CronTable {
         logger.info("daily job : End");
     }
 
-    @Scheduled(cron = "0 0 * * * *")
-    public void startTelegramBot() {
+    @Scheduled(initialDelay = 5000, fixedDelay = 86400000)
+    public void startTelegramBot() throws java.text.ParseException{
+    	logger.info("telegram Service : Start");
         TelegramService.telegramBotManager();
     }
 
@@ -132,6 +133,7 @@ public class CronTable {
                         if (availableSeatNum >= alarm.getReservationNumber()) {
                             logger.info("선택좌석 ("+sequence.getSeatNoList().size()+" 중 예약 인원수("+ alarm.getReservationNumber() +") 만큼 자리 생김! 가능좌석 수 : "+ availableSeatNum+ " TO 메신저방 : " + alarm.getEmail());
                             //TODO DB에서 해당 알람 email값으로 텔레그램방에 알림전송 해야함 by thesun.kim
+                            TelegramService.pushMessage(alarm.get_id(), "Hurry up! book a movie.");
                             seatCronService.setRun(alarm.get_id(),false);
                             //TODO 알람 보냈으면 isRun값 false처리해줘야함 by thesun.kim
                         }
