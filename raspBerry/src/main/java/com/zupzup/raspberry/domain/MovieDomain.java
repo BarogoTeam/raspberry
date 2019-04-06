@@ -1,14 +1,13 @@
 package com.zupzup.raspberry.domain;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "movies")
 public class MovieDomain {
 
-    private String id;
+    private String movieId;
     private String name;
     private String img;
 
@@ -16,12 +15,12 @@ public class MovieDomain {
 
     }
 
-    public String getId() {
-        return id;
+    public String getMovieId() {
+        return movieId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
     public String getName() {

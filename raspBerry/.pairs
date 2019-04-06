@@ -1,6 +1,6 @@
 # .pairs - configuration for 'git pair'
 pairs:
-  # <initials>: <Firstname> <Lastname>[; <email-id>]
+  # <initials>: <Firstname> <Lastname>[; <email-movieId>]
   ck: Conan Kim; crian0121
   tk: Thesun Kim; thesun4sky
   ll: Leo Lee; cylee0330

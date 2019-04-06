@@ -96,7 +96,7 @@ public class CronTable {
         //MoiveCronServiceImpl 통해서 데이터 정재해서 저장하기 by thesun.kim
         for (Object item : items) {
             MovieDomain movie = new MovieDomain();
-            movie.setId(((JSONObject) item).get("RepresentationMovieCode").toString());
+            movie.setMovieId(((JSONObject) item).get("RepresentationMovieCode").toString());
             movie.setName(((JSONObject) item).get("MovieNameKR").toString());
             movie.setImg(((JSONObject) item).get("PosterURL").toString());
             movieCronService.updateMovie(movie);
