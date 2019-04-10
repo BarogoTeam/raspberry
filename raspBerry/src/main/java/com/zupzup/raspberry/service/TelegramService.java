@@ -7,15 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TelegramService {
+	
     public static void telegramBotManager() {
-        execute("python telegramBotManager.py");
+    	List<String> cmd = new ArrayList<String>();
+    	cmd.add("python telegramBotManager.py");
+        execute(cmd);
     }
 
     public static void pushMessage(String roomId, String msg) {
-        execute("python sendMsg.py '"+roomId + "' '"+msg+"'");
+    	List<String> cmd = new ArrayList<String>();
+    	cmd.add("python sendMsg.py");
+    	cmd.add(roomId);
+    	cmd.add(msg);
+        execute(cmd);
     }
 
-    public static void execute(String cmd) {
+    public static void execute(List<String> cmd) {
         Process process = null;
         Runtime runtime = Runtime.getRuntime();
         StringBuffer successOutput = new StringBuffer(); // 성공 스트링 버퍼
@@ -36,7 +43,8 @@ public class TelegramService {
         }
 
         // 명령어 셋팅
-        cmdList.add(cmd);
+        cmdList.addAll(cmd);
+        
         String[] array = cmdList.toArray(new String[cmdList.size()]);
 
         try {
